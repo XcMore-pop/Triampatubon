@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ค้นหาห้องเรียน</title>
+</head>
+<body>
+
+<h2>ค้นหาชื่อ</h2>
+<input type="text" id="search" placeholder="พิมพ์ชื่อ...">
+
+<div id="result"></div>
+
+<script>
+let data = [];
+
+fetch("https://script.google.com/macros/s/AKfycbxfYALv7kKe4ojon8h9yJx9PW7G9rcf-WTCbJoXQROLmKv1cUaSEpfc951Tegxz-T4_dg/exec")
+  .then(res => res.json())
+  .then(json => data = json);
+
+document.getElementById("search").addEventListener("input", function() {
+  const value = this.value.toLowerCase();
+  const found = data.find(s => s.name.toLowerCase().includes(value));
+
+  if (found) {
+    document.getElementById("result").innerHTML =
+      `ชื่อ: ${found.name} <br> ห้อง: ${found.room} <br> เลขที่: ${found.number} <br> รหัสนักเรียน: ${found.numberstudent}`;
+  } else {
+    document.getElementById("result").innerText = "ไม่เจอ";
+  }
+});
+</script>
+
+</body>
+</html>
